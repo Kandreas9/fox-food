@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 
 export default function Header({ handleModalToggle, user }) {
 	const router = useRouter();
+	const currentRoute = router.pathname;
 
 	const handleLogout = async () => {
 		const token = Cookies.get("token");
@@ -59,10 +60,26 @@ export default function Header({ handleModalToggle, user }) {
 
 				<nav className="flex gap-2">
 					<Link href="/preference">
-						<a>Preference</a>
+						<a
+							className={
+								currentRoute === "/preference"
+									? "border-b-2 border-orange-500 text-orange-500"
+									: ""
+							}
+						>
+							Preference
+						</a>
 					</Link>
 					<Link href="/menu">
-						<a>Menu</a>
+						<a
+							className={
+								currentRoute === "/menu"
+									? "border-b-2 border-orange-500 text-orange-500"
+									: ""
+							}
+						>
+							Menu
+						</a>
 					</Link>
 				</nav>
 			</div>
