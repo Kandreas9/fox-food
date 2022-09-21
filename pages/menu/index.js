@@ -1,6 +1,8 @@
 import axios from "axios";
+
 import Layout from "../../components/layout";
 import getCookieServer from "../../utils/getCookieServer";
+import MenuList from "../../components/menu/menuList";
 
 export default function Home({ user }) {
 	console.log(user);
@@ -17,6 +19,8 @@ export default function Home({ user }) {
 					Pick the foods you have liked to be set for your menu
 				</p>
 			</section>
+
+			<MenuList user={user}></MenuList>
 		</Layout>
 	);
 }
