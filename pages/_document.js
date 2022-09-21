@@ -8,6 +8,7 @@ export default class MyDocument extends Document {
 				<body>
 					<Main />
 					<div id="register" />
+					<div id="menuSelect" />
 					<NextScript />
 				</body>
 			</Html>

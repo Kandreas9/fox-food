@@ -1,28 +1,33 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import MenuSelect from "./menuSelect";
 
-export default function MenuItem({ user, menuDay }) {
+export default function MenuItem({ user, menuDay, menuItem }) {
+	const [isMenuSelectModalOpen, setIsMenuSelectModalOpen] = useState(false);
 	const [dish, setDish] = useState(null);
 
-	useEffect(() => {
-		async function fetchDish() {
-			const token = Cookies.get("token");
+	const handleMenuSelectModalToggle = () => {
+		setIsMenuSelectModalOpen(!isMenuSelectModalOpen);
+	};
 
-			if (token && menuDay.dish) {
-				const result = await axios.get(
-					`http://localhost:3001/dish/${menuDay.dish}`,
-					{
-						headers: { Authorization: `Bearer ${token}` },
-					}
-				);
-				console.log(result);
-				if (result.data.dish) {
-					setDish(result.data.dish);
+	async function fetchDish() {
+		const token = Cookies.get("token");
+
+		if (token && menuItem.dish) {
+			const result = await axios.get(
+				`http://localhost:3001/dish/${menuItem.dish}`,
+				{
+					headers: { Authorization: `Bearer ${token}` },
 				}
+			);
+			if (result.data.dish) {
+				setDish(result.data.dish);
 			}
 		}
+	}
 
+	useEffect(() => {
 		fetchDish();
 	}, []);
 
@@ -42,7 +47,7 @@ export default function MenuItem({ user, menuDay }) {
 				/>
 			)}
 
-			<h2 className="my-2 font-bold">{menuDay.title}</h2>
+			<h2 className="my-2 font-bold">{menuItem.title}</h2>
 
 			{dish ? (
 				<p className="text-gray-500">{dish.name}</p>
@@ -55,9 +60,21 @@ export default function MenuItem({ user, menuDay }) {
 					See More
 				</button>
 			) : (
-				<button className="p-2 mt-2 text-white bg-orange-500 rounded">
+				<button
+					onClick={handleMenuSelectModalToggle}
+					className="p-2 mt-2 text-white bg-orange-500 rounded"
+				>
 					Select
 				</button>
+			)}
+
+			{isMenuSelectModalOpen && (
+				<MenuSelect
+					menuDay={menuDay}
+					user={user}
+					handleMenuSelectModalToggle={handleMenuSelectModalToggle}
+					fetchDish={fetchDish}
+				></MenuSelect>
 			)}
 		</section>
 	);

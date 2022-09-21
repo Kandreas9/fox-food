@@ -10,7 +10,8 @@ export default function MenuList({ user }) {
 					<MenuItem
 						key={index}
 						user={user}
-						menuDay={user.menu[menuDay]}
+						menuDay={menuDay}
+						menuItem={user.menu[menuDay]}
 					></MenuItem>
 				);
 			})}
